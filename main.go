@@ -19,7 +19,7 @@ type Spec struct {
 }
 
 type Entity struct {
-	apiVersion string
+	ApiVersion string `yaml:"apiVersion"`
 	Kind       string
 	Metadata   Metadata
 	Spec       Spec
@@ -30,24 +30,26 @@ var qs = []*survey.Question{
 		Name: "Kind",
 		Prompt: &survey.Select{
 			Message: "Enter your entity kind:",
-			Options: []string{"Component", "API", "Resource", "System"},
+			Options: []string{"Component", "API", "Resource", "System", "Group", "User"},
 			Default: "Component",
 		},
 	},
 	{
-		Name:   "Name",
-		Prompt: &survey.Input{Message: "What is your entity name?"},
+		Name: "Name",
+		Prompt: &survey.Input{Message: "What is your entity name?",
+			Default: "my-entity"},
 	},
 	{
-		Name:   "Description",
-		Prompt: &survey.Input{Message: "What is your entity description?"},
+		Name: "Description",
+		Prompt: &survey.Input{Message: "What is your entity description?",
+			Default: "a simple entity"},
 	},
 	{
 		Name: "Type",
 		Prompt: &survey.Select{
 			Message: "Enter your entity type:",
-			Options: []string{"Service", "Database", "Website"},
-			Default: "Service",
+			Options: []string{"service", "website", "library"},
+			Default: "service",
 		},
 	},
 	{
@@ -83,7 +85,7 @@ func main() {
 
 	cataloginfo := Entity{}
 
-	cataloginfo.apiVersion = "backstage.io/v1alpha1"
+	cataloginfo.ApiVersion = "backstage.io/v1alpha1"
 	cataloginfo.Kind = answers.Kind
 	cataloginfo.Metadata.Name = answers.Name
 	cataloginfo.Metadata.Description = answers.Description
